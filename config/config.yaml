@@ -1,0 +1,146 @@
+# Synced with the current GitHub repository release.
+
+# Book Recommendation System Configuration
+# =========================================
+# Author: Quang
+# 
+# This file contains all configurable parameters for the recommendation pipeline.
+# Modify these settings to customize the behavior of the system.
+
+# Data Loading Settings
+data:
+  # Path to book metadata file (JSON or CSV)
+  books_path: 'data/goodreads_books.json.gz'
+  
+  # Path to user-book interactions file
+  ratings_path: 'data/goodreads_interactions.csv'
+  
+  # Minimum number of ratings required per user
+  # Users with fewer ratings will be filtered out
+  min_ratings_per_user: 5
+  
+  # Minimum number of ratings required per book
+  # Books with fewer ratings will be filtered out
+  min_ratings_per_book: 10
+  
+  # Encoding for CSV files
+  encoding: 'utf-8'
+  
+  # Sample size for development (null for full dataset)
+  sample_size: null
+
+# Preprocessing Settings
+preprocessing:
+  # Text columns to use for content-based features
+  text_features:
+    - 'title'
+    - 'authors'
+    - 'description'
+  
+  # Maximum number of TF-IDF features
+  max_tfidf_features: 5000
+  
+  # N-gram range for text vectorization
+  ngram_range: [1, 2]
+  
+  # Minimum document frequency for TF-IDF
+  min_df: 2
+  
+  # Maximum document frequency for TF-IDF (proportion)
+  max_df: 0.95
+  
+  # Whether to use lemmatization
+  use_lemmatization: false
+  
+  # Whether to remove stopwords
+  remove_stopwords: true
+
+# Model Settings
+model:
+  # Algorithm for nearest neighbors search
+  # Options: 'auto', 'ball_tree', 'kd_tree', 'brute'
+  algorithm: 'auto'
+  
+  # Number of neighbors to consider
+  n_neighbors: 20
+  
+  # Distance metric
+  # Options: 'cosine', 'euclidean', 'manhattan', 'correlation'
+  metric: 'cosine'
+  
+  # Recommendation approach
+  # Options: 'item' (item-based CF), 'user' (user-based CF)
+  approach: 'item'
+  
+  # Number of parallel jobs (-1 for all cores)
+  n_jobs: -1
+  
+  # Leaf size for tree-based algorithms
+  leaf_size: 30
+
+# Hybrid Model Settings
+hybrid:
+  # Weight for collaborative filtering component (0-1)
+  cf_weight: 0.6
+  
+  # Weight for content-based component (0-1)
+  content_weight: 0.4
+  
+  # Whether to normalize scores before combining
+  normalize_scores: true
+
+# Evaluation Settings
+evaluation:
+  # Proportion of data to use for testing
+  test_size: 0.2
+  
+  # K values for Precision@K, Recall@K, etc.
+  k_values: [5, 10, 20, 50]
+  
+  # Rating threshold for considering an item as relevant
+  relevance_threshold: 4.0
+  
+  # Number of folds for cross-validation
+  cv_folds: 5
+  
+  # Random seed for reproducibility
+  random_state: 42
+
+# Output Settings
+output:
+  # Directory for saving trained models
+  model_dir: 'models/'
+  
+  # Directory for saving evaluation results
+  results_dir: 'results/'
+  
+  # Directory for saving visualizations
+  figures_dir: 'assets/screenshots/'
+  
+  # Whether to save intermediate results
+  save_intermediate: false
+
+# Logging Settings
+logging:
+  # Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  level: 'INFO'
+  
+  # Log file path (null for stdout only)
+  file: null
+  
+  # Log format
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+# Demo App Settings
+demo:
+  # Number of sample books for demo
+  n_sample_books: 500
+  
+  # Number of sample users for demo
+  n_sample_users: 200
+  
+  # Number of sample ratings for demo
+  n_sample_ratings: 5000
+  
+  # Default number of recommendations to show
+  default_n_recommendations: 10
