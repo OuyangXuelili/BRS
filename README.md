@@ -24,6 +24,13 @@ The code is organized as a reusable Python package under `src/`, with a separate
 - `MetricsCalculator` and `RecommenderEvaluator` for Precision@K, Recall@K, NDCG, Hit Rate, MAP, coverage, and related metrics
 - `visualization.py` helpers for rating, activity, and model-comparison plots
 - `demo/app.py` Streamlit UI for interactive exploration
+- demo-grade hybrid recommendations with profile affinity, popularity, novelty, and diversity reranking
+- cold-start recommendations for new users with no rating history
+- explainability panels that show learned user preferences and ranking weights
+- in-app holdout evaluation comparing popularity, latent-factor SVD, profile hybrid, and hybrid-plus-diversity models
+- reranking trade-off analysis to show how diversity tuning affects NDCG, coverage, novelty, and balanced utility
+- latent-factor hyperparameter sweep for choosing the SVD factor count with evidence
+- advanced recommender diagnostics: MAP@10, MRR@10, personalization, long-tail share, popularity Gini, calibration error, and user-segment performance
 
 ## Installation
 
@@ -87,6 +94,20 @@ Run the interactive demo locally:
 ```bash
 streamlit run demo/app.py
 ```
+
+The demo is designed for a recommender-system presentation, not just a raw model output. It includes:
+
+- personalized book recommendations with stable cover images and fallback generated covers
+- mood-based and cold-start recommendation modes
+- bestseller and catalog exploration views
+- a model-transparency panel explaining why a user receives a recommendation list
+- an evaluation lab using a per-user 20% holdout split with Precision@10, Recall@10, NDCG@10, MAP@10, MRR@10, Hit Rate@10, Coverage, Diversity, Novelty, Personalization, Long-tail Share, Popularity Gini, and Calibration Error
+- a model-based collaborative filtering baseline using TruncatedSVD latent factors
+- a reranking sweep that visualizes the accuracy-versus-diversity trade-off
+- a latent-factor tuning sweep that compares SVD factor counts
+- user-segment analysis for users with little, medium, and rich rating history
+
+For data-heavy demos, `demo/app.py` auto-discovers the largest valid Goodreads/UCSD data directory. It checks `BRS_DATA_DIR`, `BRS/data`, and sibling project folders such as `book-recommendation-system/data`, then builds a responsive working set from the full files instead of loading several gigabytes into memory at once. If no Goodreads files are available locally, the demo falls back to a curated sample catalog so the UI remains presentable.
 
 ## Project Structure
 
